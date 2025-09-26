@@ -173,8 +173,8 @@ app.post('/api/auth/register', (req, res) => {
       return res.status(400).json({ error: 'All fields are required' });
     }
     
-    if (!password.includes('rs')) {
-      return res.status(400).json({ error: 'Password must contain "rs"' });
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
     
     if (users.find(u => u.email === email)) {
