@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Check, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -26,6 +26,20 @@ export function Login({ onLogin }: LoginProps) {
   const [isLoading, setIsLoading] = useState(false);
   
   const { login } = useAuthStore();
+
+  // Password criteria validation
+  const getPasswordCriteria = (password: string) => {
+    return {
+      length: password.length >= 6,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+  };
+
+  const passwordCriteria = getPasswordCriteria(signupForm.password);
+  const isPasswordValid = Object.values(passwordCriteria).every(Boolean);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -239,6 +253,62 @@ export function Login({ onLogin }: LoginProps) {
                         )}
                       </Button>
                     </div>
+                    
+                    {/* Password Criteria */}
+                    {signupForm.password && (
+                      <div className="mt-2 space-y-1 text-sm">
+                        <div className="flex items-center gap-2">
+                          {passwordCriteria.length ? (
+                            <Check className="h-3 w-3 text-green-500" />
+                          ) : (
+                            <X className="h-3 w-3 text-red-500" />
+                          )}
+                          <span className={passwordCriteria.length ? 'text-green-600' : 'text-red-600'}>
+                            At least 6 characters
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {passwordCriteria.uppercase ? (
+                            <Check className="h-3 w-3 text-green-500" />
+                          ) : (
+                            <X className="h-3 w-3 text-red-500" />
+                          )}
+                          <span className={passwordCriteria.uppercase ? 'text-green-600' : 'text-red-600'}>
+                            One uppercase letter
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {passwordCriteria.lowercase ? (
+                            <Check className="h-3 w-3 text-green-500" />
+                          ) : (
+                            <X className="h-3 w-3 text-red-500" />
+                          )}
+                          <span className={passwordCriteria.lowercase ? 'text-green-600' : 'text-red-600'}>
+                            One lowercase letter
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {passwordCriteria.number ? (
+                            <Check className="h-3 w-3 text-green-500" />
+                          ) : (
+                            <X className="h-3 w-3 text-red-500" />
+                          )}
+                          <span className={passwordCriteria.number ? 'text-green-600' : 'text-red-600'}>
+                            One number
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {passwordCriteria.special ? (
+                            <Check className="h-3 w-3 text-green-500" />
+                          ) : (
+                            <X className="h-3 w-3 text-red-500" />
+                          )}
+                          <span className={passwordCriteria.special ? 'text-green-600' : 'text-red-600'}>
+                            One special character
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="space-y-2">
@@ -257,7 +327,11 @@ export function Login({ onLogin }: LoginProps) {
                     </div>
                   </div>
                   
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={isLoading || !isPasswordValid || signupForm.password !== signupForm.confirmPassword}
+                  >
                     {isLoading ? 'Creating Account...' : 'Create Account'}
                   </Button>
                 </form>
