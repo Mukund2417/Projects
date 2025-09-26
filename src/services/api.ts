@@ -172,9 +172,8 @@ export const authAPI = {
     
     const user = {
       _id: '1',
-      name: 'Demo User',
-      email: 'test@demo.com',
-      phone: '+91-98765-43210'
+      name: 'GO Punjab User',
+      email: 'test@demo.com'
     };
     
     const token = 'demo-jwt-token-' + Date.now();
@@ -193,9 +192,9 @@ export const authAPI = {
   register: async (userData: any) => {
     await delay(500);
     
-    const { name, email, password, phone } = userData;
+    const { name, email, password } = userData;
     
-    if (!name || !email || !password || !phone) {
+    if (!name || !email || !password) {
       throw new Error('All fields are required');
     }
     
@@ -216,7 +215,6 @@ export const authAPI = {
       _id: Date.now().toString(),
       name,
       email,
-      phone,
       wallet: { balance: 1000, currency: 'INR' },
       loyaltyPoints: 0,
       createdAt: new Date().toISOString()
@@ -225,7 +223,7 @@ export const authAPI = {
     return {
       data: {
         message: 'User registered successfully',
-        user: { _id: user._id, name: user.name, email: user.email, phone: user.phone }
+        user: { _id: user._id, name: user.name, email: user.email }
       }
     };
   },

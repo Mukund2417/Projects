@@ -53,7 +53,7 @@ export function RoutePass() {
     {
       id: 'AP001',
       name: 'Daily Pass - All Routes',
-      description: 'Unlimited travel on all Punjab Bus routes for 24 hours',
+      description: 'Unlimited travel on all GO Punjab routes for 24 hours',
       price: '₹50',
       validity: '1 day',
       routes: 'All Routes',

@@ -81,6 +81,39 @@ export function Dashboard() {
     { label: 'On-time Rate', value: '96%', icon: TrendingUp, color: 'text-orange-600', bg: 'bg-orange-50 dark:bg-orange-950/20' },
   ];
 
+  // Quick action handlers
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'find-routes':
+        toast.success('Opening Route Search...');
+        // In a real app, this would navigate to route search page
+        setTimeout(() => {
+          window.location.hash = '#route-search';
+        }, 500);
+        break;
+      case 'book-ticket':
+        toast.success('Opening Ticket Booking...');
+        setTimeout(() => {
+          window.location.hash = '#ticket-booking';
+        }, 500);
+        break;
+      case 'live-tracking':
+        toast.success('Opening Live Tracking...');
+        setTimeout(() => {
+          window.location.hash = '#live-tracking';
+        }, 500);
+        break;
+      case 'monthly-pass':
+        toast.success('Opening Monthly Pass...');
+        setTimeout(() => {
+          window.location.hash = '#route-pass';
+        }, 500);
+        break;
+      default:
+        toast.info('Feature coming soon!');
+    }
+  };
+
 
   return (
     <div className="space-y-6">
@@ -89,7 +122,7 @@ export function Dashboard() {
         <div className="space-y-2">
           <div className="text-4xl mb-2">🚌</div>
           <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-green-600 bg-clip-text text-transparent">
-            Welcome to Punjab Bus
+            Welcome to GO Punjab
           </h2>
           <p className="text-muted-foreground">
             Smart, Safe & Sustainable Public Transportation
@@ -116,7 +149,32 @@ export function Dashboard() {
         {quickStats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index} className="hover:shadow-md transition-shadow">
+            <Card 
+              key={index} 
+              className="hover:shadow-md transition-all cursor-pointer hover:scale-105"
+              onClick={() => {
+                switch (index) {
+                  case 0: // Next Bus
+                    toast.info('Next bus arriving in 3 minutes!');
+                    break;
+                  case 1: // Active Routes
+                    toast.success('Opening route map...');
+                    setTimeout(() => {
+                      window.location.hash = '#route-search';
+                    }, 500);
+                    break;
+                  case 2: // Valid Passes
+                    toast.success('Opening your passes...');
+                    setTimeout(() => {
+                      window.location.hash = '#route-pass';
+                    }, 500);
+                    break;
+                  case 3: // On-time Rate
+                    toast.info('96% on-time performance this month!');
+                    break;
+                }
+              }}
+            >
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -147,13 +205,24 @@ export function Dashboard() {
                   <p className="text-sm opacity-90 mb-4">{route.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-2xl font-bold">₹{route.fare.base}</span>
-                    <Button variant="secondary" size="sm">Book Now</Button>
+                    <Button 
+                      variant="secondary" 
+                      size="sm"
+                      onClick={() => {
+                        toast.success(`Booking ${route.name}...`);
+                        setTimeout(() => {
+                          window.location.hash = '#ticket-booking';
+                        }, 500);
+                      }}
+                    >
+                      Book Now
+                    </Button>
                   </div>
                 </div>
                 <div className="absolute inset-0 opacity-20">
                   <img 
                     src="https://images.unsplash.com/photo-1681004478577-cb7f8421f78c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwdW5qYWIlMjBpbmRpYSUyMGJ1cyUyMHRyYW5zcG9ydHxlbnwxfHx8fDE3NTg5MDQ5ODl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                    alt="Punjab Bus" 
+                    alt="GO Punjab" 
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -177,19 +246,35 @@ export function Dashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex flex-col items-center justify-center space-y-2 hover:bg-orange-50 hover:border-orange-300 transition-colors"
+              onClick={() => handleQuickAction('find-routes')}
+            >
               <MapPin className="h-6 w-6 text-orange-600" />
               <span className="text-sm">Find Routes</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex flex-col items-center justify-center space-y-2 hover:bg-blue-50 hover:border-blue-300 transition-colors"
+              onClick={() => handleQuickAction('book-ticket')}
+            >
               <Ticket className="h-6 w-6 text-blue-600" />
               <span className="text-sm">Book Ticket</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex flex-col items-center justify-center space-y-2 hover:bg-green-50 hover:border-green-300 transition-colors"
+              onClick={() => handleQuickAction('live-tracking')}
+            >
               <Clock className="h-6 w-6 text-green-600" />
               <span className="text-sm">Live Tracking</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center justify-center space-y-2">
+            <Button 
+              variant="outline" 
+              className="h-20 flex flex-col items-center justify-center space-y-2 hover:bg-purple-50 hover:border-purple-300 transition-colors"
+              onClick={() => handleQuickAction('monthly-pass')}
+            >
               <TrendingUp className="h-6 w-6 text-purple-600" />
               <span className="text-sm">Monthly Pass</span>
             </Button>

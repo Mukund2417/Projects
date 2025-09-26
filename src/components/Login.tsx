@@ -24,6 +24,7 @@ export function Login({ onLogin }: LoginProps) {
     confirmPassword: '' 
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [shakeForm, setShakeForm] = useState(false);
   
   const { login } = useAuthStore();
 
@@ -60,8 +61,21 @@ export function Login({ onLogin }: LoginProps) {
       onLogin(user);
       toast.success('Login successful!');
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed';
-      toast.error(message);
+      const message = error.message || 'Login failed';
+      
+      // Show specific notification for incorrect credentials
+      if (message.includes('Invalid credentials') || message.includes('incorrect')) {
+        toast.error('❌ Credentials Incorrect', {
+          description: 'Please check your email and password',
+          duration: 4000,
+        });
+        
+        // Add shake animation
+        setShakeForm(true);
+        setTimeout(() => setShakeForm(false), 500);
+      } else {
+        toast.error(message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -126,13 +140,13 @@ export function Login({ onLogin }: LoginProps) {
             <span className="text-3xl">🚌</span>
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-green-600 bg-clip-text text-transparent">
-            Punjab Bus
+            GO Punjab
           </h1>
           <p className="text-muted-foreground mt-2">Government of Punjab • Smart Transit System</p>
           <p className="text-sm text-muted-foreground">Safe • Reliable • Affordable</p>
         </div>
 
-        <Card>
+        <Card className={shakeForm ? 'shake-animation border-red-300 bg-red-50' : ''}>
           <CardHeader>
             <CardTitle>Get Started</CardTitle>
             <CardDescription>

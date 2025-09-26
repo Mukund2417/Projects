@@ -40,10 +40,10 @@ export function Header({ onMenuClick, user, onLogout, onProfileClick, onSettings
             <span className="text-xl">🚌</span>
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-xl font-bold">Punjab Bus</h1>
+            <h1 className="text-xl font-bold">GO Punjab</h1>
             <p className="text-xs opacity-90">Government of Punjab</p>
           </div>
-          <h1 className="sm:hidden text-lg font-bold">Punjab Bus</h1>
+          <h1 className="sm:hidden text-lg font-bold">GO Punjab</h1>
         </div>
 
         {/* Desktop search */}
