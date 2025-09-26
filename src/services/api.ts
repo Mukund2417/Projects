@@ -157,58 +157,77 @@ const mockBuses = [
 
 const mockBookings = [];
 
-// API functions with backend integration
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
-
+// Frontend-only API functions with localStorage
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Helper function to make API calls
-const apiCall = async (endpoint: string, options: RequestInit = {}) => {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    ...options,
-  });
-  
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || 'API call failed');
-  }
-  
-  return response.json();
-};
 
 // Auth API
 export const authAPI = {
   login: async (email: string, password: string) => {
-    try {
-      const response = await apiCall('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-      });
-      
-      localStorage.setItem('authToken', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      
-      return { data: response };
-    } catch (error) {
-      throw error;
+    await delay(500); // Simulate network delay
+    
+    // Only allow specific credentials
+    if (email !== 'test@demo.com' || password !== 'Demo@123') {
+      throw new Error('Invalid credentials');
     }
+    
+    const user = {
+      _id: '1',
+      name: 'Demo User',
+      email: 'test@demo.com',
+      phone: '+91-98765-43210'
+    };
+    
+    const token = 'demo-jwt-token-' + Date.now();
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    
+    return {
+      data: {
+        message: 'Login successful',
+        user: user,
+        token: token
+      }
+    };
   },
   
   register: async (userData: any) => {
-    try {
-      const response = await apiCall('/auth/register', {
-        method: 'POST',
-        body: JSON.stringify(userData),
-      });
-      
-      return { data: response };
-    } catch (error) {
-      throw error;
+    await delay(500);
+    
+    const { name, email, password, phone } = userData;
+    
+    if (!name || !email || !password || !phone) {
+      throw new Error('All fields are required');
     }
+    
+    // Password criteria validation
+    const passwordCriteria = {
+      length: password.length >= 6,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+    };
+    
+    if (!Object.values(passwordCriteria).every(Boolean)) {
+      throw new Error('Password must meet all criteria: at least 6 characters, uppercase, lowercase, number, and special character');
+    }
+    
+    const user = {
+      _id: Date.now().toString(),
+      name,
+      email,
+      phone,
+      wallet: { balance: 1000, currency: 'INR' },
+      loyaltyPoints: 0,
+      createdAt: new Date().toISOString()
+    };
+    
+    return {
+      data: {
+        message: 'User registered successfully',
+        user: { _id: user._id, name: user.name, email: user.email, phone: user.phone }
+      }
+    };
   },
   
   logout: async () => {
@@ -221,13 +240,8 @@ export const authAPI = {
 // Routes API
 export const routesAPI = {
   getAll: async () => {
-    try {
-      const response = await apiCall('/routes');
-      return { data: response };
-    } catch (error) {
-      // Fallback to mock data if API fails
-      return { data: mockRoutes };
-    }
+    await delay(300);
+    return { data: mockRoutes };
   },
   
   getById: async (id: string) => {

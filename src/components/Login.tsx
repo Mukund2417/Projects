@@ -41,6 +41,13 @@ export function Login({ onLogin }: LoginProps) {
   const passwordCriteria = getPasswordCriteria(signupForm.password);
   const isPasswordValid = Object.values(passwordCriteria).every(Boolean);
 
+  const fillDemoCredentials = () => {
+    setLoginForm({
+      email: 'test@demo.com',
+      password: 'Demo@123'
+    });
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
