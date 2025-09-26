@@ -1,0 +1,83 @@
+{
+  "routes": [
+    {
+      "_id": "1",
+      "routeNumber": "15",
+      "name": "Chandigarh ↔ Amritsar",
+      "description": "Direct highway route connecting Chandigarh to Amritsar",
+      "startLocation": { "name": "Chandigarh ISBT-17" },
+      "endLocation": { "name": "Amritsar ISBT" },
+      "distance": 240,
+      "estimatedDuration": 240,
+      "fare": { "base": 250, "perKm": 1.5, "maxFare": 400 },
+      "stops": [
+        { "id": "s1", "name": "Chandigarh ISBT-17", "city": "Chandigarh", "kmFromStart": 0 },
+        { "id": "s2", "name": "Kharar", "city": "SAS Nagar", "kmFromStart": 15 },
+        { "id": "s3", "name": "Rupnagar", "city": "Ropar", "kmFromStart": 42 },
+        { "id": "s4", "name": "Anandpur Sahib", "city": "Rupnagar", "kmFromStart": 82 },
+        { "id": "s5", "name": "Hoshiarpur Bypass", "city": "Hoshiarpur", "kmFromStart": 120 },
+        { "id": "s6", "name": "Batala", "city": "Gurdaspur", "kmFromStart": 200 },
+        { "id": "s7", "name": "Amritsar ISBT", "city": "Amritsar", "kmFromStart": 240 }
+      ],
+      "fareTable": [
+        { "fromKm": 0, "toKm": 50, "price": 120 },
+        { "fromKm": 51, "toKm": 150, "price": 220 },
+        { "fromKm": 151, "toKm": 250, "price": 300 }
+      ],
+      "status": "active",
+      "isPopular": true
+    },
+    {
+      "_id": "2",
+      "routeNumber": "22",
+      "name": "Ludhiana ↔ Jalandhar",
+      "description": "Frequent city route connecting Ludhiana and Jalandhar",
+      "startLocation": { "name": "Ludhiana Bus Stand" },
+      "endLocation": { "name": "Jalandhar Bus Stand" },
+      "distance": 60,
+      "estimatedDuration": 60,
+      "fare": { "base": 120, "perKm": 2, "maxFare": 150 },
+      "stops": [
+        { "id": "s1", "name": "Ludhiana Bus Stand", "city": "Ludhiana", "kmFromStart": 0 },
+        { "id": "s2", "name": "Khanna", "city": "Ludhiana", "kmFromStart": 20 },
+        { "id": "s3", "name": "Phagwara", "city": "Kapurthala", "kmFromStart": 45 },
+        { "id": "s4", "name": "Jalandhar Bus Stand", "city": "Jalandhar", "kmFromStart": 60 }
+      ],
+      "fareTable": [
+        { "fromKm": 0, "toKm": 20, "price": 40 },
+        { "fromKm": 21, "toKm": 40, "price": 80 },
+        { "fromKm": 41, "toKm": 70, "price": 120 }
+      ],
+      "status": "active",
+      "isPopular": true
+    },
+    {
+      "_id": "3",
+      "routeNumber": "8",
+      "name": "Patiala ↔ Chandigarh",
+      "description": "City to city connection",
+      "startLocation": { "name": "Patiala Bus Stand" },
+      "endLocation": { "name": "Chandigarh ISBT-43" },
+      "distance": 80,
+      "estimatedDuration": 90,
+      "fare": { "base": 180 },
+      "stops": [
+        { "id": "s1", "name": "Patiala Bus Stand", "city": "Patiala", "kmFromStart": 0 },
+        { "id": "s2", "name": "Rajpura", "city": "Patiala", "kmFromStart": 25 },
+        { "id": "s3", "name": "Zirakpur", "city": "Mohali", "kmFromStart": 65 },
+        { "id": "s4", "name": "Chandigarh ISBT-43", "city": "Chandigarh", "kmFromStart": 80 }
+      ],
+      "fareTable": [
+        { "fromKm": 0, "toKm": 30, "price": 60 },
+        { "fromKm": 31, "toKm": 60, "price": 120 },
+        { "fromKm": 61, "toKm": 90, "price": 180 }
+      ],
+      "status": "active"
+    }
+  ],
+  "buses": [
+    { "_id": "1", "busNumber": "PB15-2847", "routeId": "1", "busType": "ac" },
+    { "_id": "2", "busNumber": "PB22-1534", "routeId": "2", "busType": "standard" },
+    { "_id": "3", "busNumber": "PB08-9876", "routeId": "3", "busType": "ac" }
+  ]
+}
